@@ -1,0 +1,62 @@
+{
+  "name": "next-global-props",
+  "version": "0.0.0",
+  "description": "",
+  "keywords": [
+    "react",
+    "react-hooks",
+    "hooks",
+    "tus",
+    "tus-js-client"
+  ],
+  "homepage": "https://github.com/kqito/next-global-props#readme",
+  "bugs": {
+    "url": "https://github.com/kqito/next-global-props/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kqito/next-global-props.git"
+  },
+  "license": "MIT",
+  "author": "Nakagawa kaito",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npm-run-all -s type clean build:rollup",
+    "build:rollup": "cross-env NODE_ENV=production rollup -c",
+    "test": "cross-env NODE_ENV=TEST jest",
+    "type": "tsc --noEmit",
+    "format": "npm-run-all -s format:*",
+    "format:fix": "prettier --write './src/**/*.{ts,tsx,js,jsx,json}'",
+    "format:lint": "eslint ./src --ext .ts,.tsx",
+    "clean": "rimraf ./dist",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.4",
+    "@babel/core": "^7.15.4",
+    "@types/babel__core": "^7.1.15",
+    "@types/jest": "^26.0.13",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
+    "babel-jest": "^26.3.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.8.1",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.4.2",
+    "lint-staged": "^10.3.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.1.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.4.2"
+  }
+}
