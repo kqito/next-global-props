@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "jsx": "react",
+        "lib": ["esnext", "dom"],
+        "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "declaration": true,
+        "outDir": "dist"
+    },
+  "include": ["src/**/*"]
+}
