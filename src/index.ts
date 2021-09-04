@@ -1,24 +1,25 @@
 import { types } from '@babel/core';
 import { PluginPass, Visitor, PluginObj } from '@babel/core';
-import { findPagesDir } from 'next/dist/lib/find-pages-dir';
+import { injectGlobalProps } from './injectGlobalProps';
+import { setGlobalPropsExpressionFromRoot } from './setGlobalPropsExpressionFromRoot';
 
 type Types = typeof types;
 
 const visitor: Visitor<PluginPass> = {
-  ExportDeclaration(path, state) {
-    const { node } = path; // const node: t.ClassDeclaration
+  ExportNamedDeclaration(path, state) {
+    const { node } = path;
+    const { declaration } = node;
 
-    console.log(state.file.opts.filename);
+    setGlobalPropsExpressionFromRoot(declaration, state.file.opts.filename);
+  },
+  Program(path, state) {
+    injectGlobalProps(path, state.file.opts.filename);
   },
 };
 
-function nextGlobalPropsPlugin(_api: Types): PluginObj {
-  const pagesDir = findPagesDir(process.cwd());
-
-  console.log('pagesdir', pagesDir);
-
+function nextGlobalPropsPlugin(/* _api: Types */): PluginObj {
   return {
-    name: 'babel-example-plugin',
+    name: 'next-global-props-plugin',
     visitor,
   };
 }
