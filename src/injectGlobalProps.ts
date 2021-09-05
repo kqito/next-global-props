@@ -10,7 +10,6 @@ import { isAppPath, isDynamicPath, isPagePath } from './utils/path';
 import {
   arrowFunctionExpression,
   blockStatement,
-  callExpression,
   exportNamedDeclaration,
   identifier,
   isArrowFunctionExpression,
@@ -31,8 +30,6 @@ export const injectGlobalProps = (
   if (!filename || isAppPath(filename) || !isPagePath(filename)) {
     return;
   }
-
-  console.log('filename', filename);
 
   const props: NextProps = {
     getStaticProps: undefined,
@@ -71,22 +68,22 @@ export const injectGlobalProps = (
       return;
     }
 
-    console.log('update: ', filename, '=>', key);
-
     const innerStatement = template(
-      `const [globalPropsResult, originalResult] = await Promise.all([%%globalProps%%(${context}), %%originalProps%%(${context})])
+      `const [globalPropsResult, originalPropsResult] = await Promise.all([%%globalProps%%(${context}), %%originalProps%%(${context})])
 
       return {
         ...globalPropsResult,
-        ...originalResult
+        ...originalPropsResult,
+        props: {
+          ...globalPropsResult.props || {},
+          ...originalPropsResult.props || {},
+        },
       }
       `
     )({
       globalProps: targetNextGlobalProps,
       originalProps: path.init,
     });
-
-    console.log(statement);
 
     statement.declaration = variableDeclaration('const', [
       variableDeclarator(
@@ -112,8 +109,6 @@ export const injectGlobalProps = (
     if (key === NEXT_PROPS.getStaticPaths && !isDynamicPath(filename)) {
       return;
     }
-
-    console.log('push: ', filename, '=>', key);
 
     path.node.body.push(
       exportNamedDeclaration(
